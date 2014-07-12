@@ -3,6 +3,7 @@ var path = require('path');
 var gutil = require('gulp-util');
 var through = require('through2');
 var react = require('react-tools');
+var sleep = require('sleep');
 
 module.exports = function (options) {
 	return through.obj(function (file, enc, cb) {
@@ -17,6 +18,13 @@ module.exports = function (options) {
 		}
 
 		var str = file.contents.toString();
+		if(str.length == 0)
+		{
+			sleep.usleep(300000);
+			str = fs.readFileSync(file.path, "utf8");
+		}
+
+		
 		var filePath = file.path;
 		// http://stackoverflow.com/a/15123777
 		var JS_COMMENTS_REGEX = /(?:\/\*(?:[\s\S]*?)\*\/)|(?:\/\/(?:.*)$)/gm;
